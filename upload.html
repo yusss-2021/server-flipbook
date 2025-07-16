@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload JPG Multiple</title>
+  </head>
+  <body>
+    <h2>Upload Gambar untuk Flipbook</h2>
+    <input type="file" id="files" accept="image/jpeg" multiple />
+    <br /><br />
+    <button onclick="uploadFiles()">Upload Sekarang</button>
+
+    <pre id="output"></pre>
+
+    <script>
+      async function uploadFiles() {
+        const input = document.getElementById("files");
+        const files = input.files;
+
+        if (files.length === 0) {
+          alert("Pilih minimal 1 file JPG");
+          return;
+        }
+
+        const formData = new FormData();
+        for (const file of files) {
+          formData.append("files", file); // name harus sama dengan multer: 'files'
+        }
+
+        try {
+          const res = await fetch("http://localhost:3000/upload-jpgs", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await res.json();
+          document.getElementById("output").textContent = JSON.stringify(result, null, 2);
+        } catch (err) {
+          console.error("❌ Upload error:", err);
+          alert("Gagal upload file");
+        }
+      }
+    </script>
+  </body>
+</html>
