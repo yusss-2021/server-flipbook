@@ -70,7 +70,7 @@ app.post("/upload-jpgs", upload.array("files", 20), async (req, res) => {
       message: "Flipbook berhasil dibuat! 📖",
       folder_id: id,
       total_pages: jpgList.length,
-      url: `http://localhost:${PORT}/flipbook/${id}`, // Ganti ke domain Vercel jika online
+      url: `https://server-flipbook-production.up.railway.app/flipbook/${id}`, // Ganti ke domain Vercel jika online
     });
   } catch (err) {
     console.error("❌ Error proses flipbook:", err);
