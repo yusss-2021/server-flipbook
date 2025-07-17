@@ -119,6 +119,28 @@
         top: 76%;
         /* 77px */
       }
+      /* Tambahkan ke tombol zoom */
+      #zoom-controls {
+        margin-left: auto;
+        display: flex;
+        gap: 10px;
+      }
+
+      .zoom-btn,
+      .fullscreen-btn {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .zoom-btn:hover,
+      .fullscreen-btn:hover {
+        background-color: #555;
+      }
 
       /* Jika mobile (max width 767px) */
       @media (max-width: 767px) {
@@ -131,8 +153,14 @@
 
   <body>
     <!-- NAV ATAS -->
+    <!-- NAV ATAS -->
     <div id="top-nav">
       <img src="assets/logo-flip.png" alt="Logo Flipbook" />
+      <div id="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()">Zoom In</button>
+        <button class="zoom-btn" onclick="zoomOut()">Zoom Out</button>
+        <button class="fullscreen-btn" onclick="toggleFullScreen()">Full Screen</button>
+      </div>
     </div>
 
     <!-- FLIPBOOK -->
@@ -217,6 +245,39 @@
 
         tryLoadPage(1); // Mulai dari 0001.jpg
       });
+      let currentZoom = 1;
+
+      function zoomIn() {
+        if (currentZoom < 2) {
+          currentZoom += 0.1;
+          applyZoom();
+        }
+      }
+
+      function zoomOut() {
+        if (currentZoom > 0.5) {
+          currentZoom -= 0.1;
+          applyZoom();
+        }
+      }
+
+      function applyZoom() {
+        const magazine = document.getElementById("magazine");
+        magazine.style.transform = `scale(${currentZoom})`;
+        magazine.style.transformOrigin = "center center";
+      }
+
+      function toggleFullScreen() {
+        const elem = document.documentElement;
+
+        if (!document.fullscreenElement) {
+          elem.requestFullscreen().catch((err) => {
+            alert(`Gagal masuk fullscreen: ${err.message}`);
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
     </script>
   </body>
 </html>
