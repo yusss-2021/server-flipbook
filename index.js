@@ -37,7 +37,7 @@ app.post("/upload-jpgs", upload.array("files", 20), async (req, res) => {
     // ✅ Filter file gambar JPG
     const jpgFiles = files.filter((f) => /^image\/jpe?g$/i.test(f.mimetype));
     if (jpgFiles.length === 0) {
-      return res.status(400).json({ error: "Tidak ada file JPG valid bro 😤" });
+      return res.status(400).json({ error: "Tidak ada file JPG valid yang diunggah." });
     }
 
     // 📦 Simpan file dengan nama berurutan (0001.jpg, dst)
@@ -67,14 +67,15 @@ app.post("/upload-jpgs", upload.array("files", 20), async (req, res) => {
     await fs.remove(tempFolder);
 
     res.json({
-      message: "Flipbook berhasil dibuat! 📖",
+      message_id: "Flipbook berhasil dibuat.",
+      message_en: "Flipbook created successfully.",
       folder_id: id,
       total_pages: jpgList.length,
-      url: `https://server-flipbook-production.up.railway.app/flipbook/${id}`, // Ganti ke domain Vercel jika online
+      url: `https://server-flipbook-production.up.railway.app/flipbook/${id}`,
     });
   } catch (err) {
     console.error("❌ Error proses flipbook:", err);
-    res.status(500).json({ error: "Gagal proses flipbook bro 😵" });
+    res.status(500).json({ error: "Terjadi kesalahan saat memproses flipbook." });
   }
 });
 
